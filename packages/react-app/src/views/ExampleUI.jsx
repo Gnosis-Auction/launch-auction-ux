@@ -284,6 +284,55 @@ export default function ExampleUI({
             </Tooltip>
             <Input className="input" />
           </div>
+          <div className="item">
+            <Paragraph className="field">Bidding Token Address</Paragraph>
+            <Tooltip title="Tooltip 2">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Order Cancellation Date</Paragraph>
+            <Tooltip title="Tooltip 3">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Auction End Date</Paragraph>
+            <Tooltip title="Tooltip 4">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Auction Sell Amount </Paragraph>
+            <Tooltip title="Tooltip 5">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Minimum Token Buy Amount</Paragraph>
+            <Tooltip title="Tooltip 6">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Minimum Bidding Amount Per Order</Paragraph>
+            <Tooltip title="Tooltip 7">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Minimum Funding Threshold</Paragraph>
+            <Tooltip title="Tooltip 8">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
         </div>
       </div>
       {/* Footer */}

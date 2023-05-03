@@ -17,12 +17,15 @@
   gap: 1em;
   align-items: center;
   justify-content: center;
+  margin: 3em 0;
 }
 
 .field {
   padding: 0;
   margin: 0 !important;
   color: #FFFFFF !important;
+  text-align: left !important;
+  width: 15em;
 }
 
 .input {
