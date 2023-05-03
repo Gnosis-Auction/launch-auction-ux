@@ -347,22 +347,26 @@ export default function ExampleUI({
             <Tooltip title="Tooltip 10">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <Switch />
+            <Switch onChange={setIsPrivateAuction} />
           </div>
-          <div className="item">
-            <Paragraph className="field">Private Auction Signer</Paragraph>
-            <Tooltip title="Tooltip 11">
-              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
-            </Tooltip>
-            <Input className="input" />
-          </div>
-          <div className="item">
-            <Paragraph className="field">Whitelist Addresses</Paragraph>
-            <Tooltip title="Tooltip 12">
-              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
-            </Tooltip>
-            <Input className="input" />
-          </div>
+          {isPrivateAuction && (
+            <>
+              <div className="item">
+                <Paragraph className="field">Private Auction Signer</Paragraph>
+                <Tooltip title="Tooltip 11">
+                  <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+                </Tooltip>
+                <Input className="input" />
+              </div>
+              <div className="item">
+                <Paragraph className="field">Whitelist Addresses</Paragraph>
+                <Tooltip title="Tooltip 12">
+                  <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+                </Tooltip>
+                <Input className="input" />
+              </div>
+            </>
+          )}
         </div>
         <Button className="button">Launch</Button>
       </div>
