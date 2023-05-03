@@ -296,14 +296,16 @@ export default function ExampleUI({
             <Tooltip title="Tooltip 3">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <Input className="input" />
+            {/* <Input className="input" /> */}
+            <DatePicker className="input" showTime onChange={() => {}} onOk={() => {}} />
           </div>
           <div className="item">
             <Paragraph className="field">Auction End Date</Paragraph>
             <Tooltip title="Tooltip 4">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <Input className="input" />
+            {/* <Input className="input" /> */}
+            <DatePicker className="input" showTime onChange={() => {}} onOk={() => {}} />
           </div>
           <div className="item">
             <Paragraph className="field">Auction Sell Amount </Paragraph>
