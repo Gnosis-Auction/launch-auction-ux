@@ -31,3 +31,12 @@
 .input {
   max-width: 40em;
 }
+
+.button {
+  background-color: #E8663D !important;
+  border-radius: 0 !important;
+  border: none !important;
+  width: 10em !important;
+  height: 3em !important;
+  color: #FFFFFF !important;
+}

@@ -362,6 +362,7 @@ export default function ExampleUI({
             <Input className="input" />
           </div>
         </div>
+        <Button className="button">Launch</Button>
       </div>
       {/* Footer */}
       {/*
