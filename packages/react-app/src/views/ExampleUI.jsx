@@ -333,6 +333,34 @@ export default function ExampleUI({
             </Tooltip>
             <Input className="input" />
           </div>
+          <div className="item">
+            <Paragraph className="field">Enable Atomic Closure</Paragraph>
+            <Tooltip title="Tooltip 9">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Switch />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Is this a Private Auction</Paragraph>
+            <Tooltip title="Tooltip 10">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Switch />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Private Auction Signer</Paragraph>
+            <Tooltip title="Tooltip 11">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+          <div className="item">
+            <Paragraph className="field">Whitelist Addresses</Paragraph>
+            <Tooltip title="Tooltip 12">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
         </div>
       </div>
       {/* Footer */}
