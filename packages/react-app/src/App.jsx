@@ -301,7 +301,7 @@ function App(props) {
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
       />
-      <Menu style={{ textAlign: "center", marginTop: 20 }} selectedKeys={[location.pathname]} mode="horizontal">
+      {/* <Menu style={{ textAlign: "center", marginTop: 20 }} selectedKeys={[location.pathname]} mode="horizontal">
         {DEBUG && (
           <Menu.Item key="/">
             <Link to="/">App Home</Link>
@@ -330,20 +330,26 @@ function App(props) {
             <Link to="/subgraph">Subgraph</Link>
           </Menu.Item>
         )}
-      </Menu>
+      </Menu> */}
 
-      <Switch>
-        <Route exact path="/">
-          {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
+      <ExampleUI
+        address={address}
+        userSigner={userSigner}
+        mainnetProvider={mainnetProvider}
+        localProvider={localProvider}
+        yourLocalBalance={yourLocalBalance}
+        price={price}
+        targetNetwork={targetNetwork}
+        tx={tx}
+        writeContracts={writeContracts}
+        readContracts={readContracts}
+        purpose={purpose}
+      />
+      {/* <Switch> */}
+      {/* <Route exact path="/">
           <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
-        </Route>
-        <Route exact path="/debug">
-          {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-
+        </Route> */}
+      {/* <Route exact path="/debug">
           <Contract
             name="AuctioningToken"
             price={price}
@@ -370,8 +376,8 @@ function App(props) {
             mainnetProvider={mainnetProvider}
             price={price}
           />
-        </Route>
-        <Route path="/exampleui">
+        </Route> */}
+      {/* <Route path="/exampleui">
           <ExampleUI
             address={address}
             userSigner={userSigner}
@@ -385,8 +391,8 @@ function App(props) {
             readContracts={readContracts}
             purpose={purpose}
           />
-        </Route>
-        <Route path="/mainnetdai">
+        </Route> */}
+      {/* <Route path="/mainnetdai">
           <Contract
             name="DAI"
             customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.DAI}
@@ -397,16 +403,6 @@ function App(props) {
             contractConfig={contractConfig}
             chainId={1}
           />
-          {/*
-            <Contract
-              name="UNI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.UNI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-            />
-            */}
         </Route>
         <Route path="/subgraph">
           <Subgraph
@@ -415,13 +411,13 @@ function App(props) {
             writeContracts={writeContracts}
             mainnetProvider={mainnetProvider}
           />
-        </Route>
-      </Switch>
+        </Route> */}
+      {/* </Switch> */}
 
-      <ThemeSwitch />
+      {/* <ThemeSwitch /> */}
 
       {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
-      <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
+      {/* <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
         <Row align="middle" gutter={[4, 4]}>
           <Col span={8}>
             <Ramp price={price} address={address} networks={NETWORKS} />
@@ -449,7 +445,6 @@ function App(props) {
         <Row align="middle" gutter={[4, 4]}>
           <Col span={24}>
             {
-              /*  if the local provider has a signer, let's show the faucet:  */
               faucetAvailable ? (
                 <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
               ) : (
@@ -458,7 +453,7 @@ function App(props) {
             }
           </Col>
         </Row>
-      </div>
+      </div> */}
     </div>
   );
 }
