@@ -2,3 +2,29 @@
   text-align: center;
   padding-left: calc(100vw - 100%);
 }
+
+.main {
+  margin: 1em 3em;
+}
+
+.form {
+  max-width: 80em;
+  margin: 3em auto;
+}
+
+.item {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+.field {
+  padding: 0;
+  margin: 0 !important;
+  color: #FFFFFF !important;
+}
+
+.input {
+  max-width: 40em;
+}

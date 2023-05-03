@@ -7,6 +7,11 @@ import { Address, Events, AddressInput } from "../components";
 import generateSignatures from "../helpers/generateSignatures";
 import uploadSignature from "../helpers/uploadSignature";
 import { initialNetwork } from "../constants";
+import { Typography, Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import "../App.css";
+
+const { Title, Paragraph } = Typography;
 
 export default function ExampleUI({
   address,
@@ -266,6 +271,22 @@ export default function ExampleUI({
 
   return (
     <div>
+      {/* Navbar */}
+      <div className="main">
+        <Title level={3} style={{ color: "#FFFFFF" }}>
+          Start a new <span style={{ color: "#E8663D" }}>Auction</span>
+        </Title>
+        <div className="form">
+          <div className="item">
+            <Paragraph className="field">Auctioning Token Address</Paragraph>
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input className="input" />
+          </div>
+        </div>
+      </div>
+      {/* Footer */}
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
