@@ -269,9 +269,10 @@ export default function ExampleUI({
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
-      <div style={{ border: "1px solid #cccccc", padding: 16, width: "80%", margin: "auto", marginTop: 64 }}>
+      {/* <div style={{ border: "1px solid #cccccc", padding: 16, width: "80%", margin: "auto", marginTop: 64 }}> */}
+      <div>
         <h2>Auction Test Site</h2>
-        <Divider />
+        {/* <Divider />
         <h3>Mint tokens</h3>
         <div style={{ display: "flex", alignContent: "center", flexDirection: "row", justifyContent: "center" }}>
           <InputNumber
@@ -307,9 +308,9 @@ export default function ExampleUI({
           </Button>
           <Address address={writeContracts?.BiddingToken?.address} />
         </div>
-        <Divider />
+        <Divider /> */}
         <div style={{ margin: 8 }}>
-          <h3>Initiate Auction</h3>
+          {/* <h3>Initiate Auction</h3> */}
           <Form
             name="Initiate Auction Form"
             labelAlign="right"
@@ -430,7 +431,7 @@ export default function ExampleUI({
             </Button>
           </Form>
         </div>
-        <Divider />
+        {/* <Divider />
         <h3>Generate signature for private auctions</h3>
         <p>Please note the signatures will be generated from the account connected to this website</p>
         <div>
@@ -473,8 +474,8 @@ export default function ExampleUI({
             </Button>
           </Form>
         </div>
-        <Divider />
-        <h3>Settle Auction</h3>
+        <Divider /> */}
+        {/* <h3>Settle Auction</h3>
         <Form
           name=""
           labelAlign="right"
@@ -504,21 +505,21 @@ export default function ExampleUI({
           <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
             Submit
           </Button>
-        </Form>
+        </Form> */}
       </div>
 
       {/*
         📑 Maybe display a list of events?
           (uncomment the event and emit line in YourContract.sol! )
       */}
-      <Events
+      {/* <Events
         contracts={readContracts}
         contractName="YourContract"
         eventName="SetPurpose"
         localProvider={localProvider}
         mainnetProvider={mainnetProvider}
         startBlock={1}
-      />
+      /> */}
     </div>
   );
 }
