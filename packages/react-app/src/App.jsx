@@ -333,18 +333,39 @@ function App(props) {
           </Menu.Item>
         )}
       </Menu> */}
-      <Account
-        useBurner={USE_BURNER_WALLET}
-        address={address}
-        localProvider={localProvider}
-        userSigner={userSigner}
-        mainnetProvider={mainnetProvider}
-        price={price}
-        web3Modal={web3Modal}
-        loadWeb3Modal={loadWeb3Modal}
-        logoutOfWeb3Modal={logoutOfWeb3Modal}
-        blockExplorer={blockExplorer}
-      />
+      <div className="navbar">
+        <img src="Logo.svg" />
+        <div className="wrapper">
+          <a
+            href="https://gnosis-auction.eth.limo/#/overview#topAnchor"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="navbarItem"
+          >
+            <Paragraph className="footerItems">Auction</Paragraph>
+          </a>
+          <a
+            href="https://gnosis-auction.eth.limo/#/docs#topAnchor"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="navbarItem"
+          >
+            <Paragraph className="footerItems">Docs</Paragraph>
+          </a>
+          <Account
+            useBurner={USE_BURNER_WALLET}
+            address={address}
+            localProvider={localProvider}
+            userSigner={userSigner}
+            mainnetProvider={mainnetProvider}
+            price={price}
+            web3Modal={web3Modal}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            blockExplorer={blockExplorer}
+          />
+        </div>
+      </div>
       <ExampleUI
         address={address}
         userSigner={userSigner}

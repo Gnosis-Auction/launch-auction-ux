@@ -76,3 +76,20 @@ label {
 .footerItems {
   color: #FFFFFF !important;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em 5%;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.navbarItem {
+  margin-top: 0.75em;
+}
