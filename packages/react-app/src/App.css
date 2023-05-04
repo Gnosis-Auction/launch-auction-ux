@@ -61,3 +61,14 @@ label {
   background-color: transparent !important;
   border: 1px solid #FFFFFF !important;
 }
+
+.footer {
+  display: flex;
+  gap: 5%;
+  justify-content: center;
+  margin-bottom: 2em !important;
+}
+
+.footerItems {
+  color: #FFFFFF !important;
+}

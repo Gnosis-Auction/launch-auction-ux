@@ -31,6 +31,8 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { getRPCPollTime, Transactor, Web3ModalSetup } from "./helpers";
 import { Home, ExampleUI, Hints, Subgraph } from "./views";
 import { useStaticJsonRPC, useGasPrice } from "./hooks";
+import { Typography } from "antd";
+const { Paragraph } = Typography;
 
 const { ethers } = require("ethers");
 /*
@@ -345,6 +347,27 @@ function App(props) {
         readContracts={readContracts}
         purpose={purpose}
       />
+      <div className="footer">
+        <a href="https://forum.gnosis.io/c/dao/20" rel="noopener noreferrer" target="_blank">
+          <Paragraph className="footerItems">2023 GnosisDAO Forum</Paragraph>
+        </a>
+        <a
+          href="https://gnosis-auction.eth.limo/#/terms-and-conditions#topAnchor"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <Paragraph className="footerItems">Terms</Paragraph>
+        </a>
+        <a href="https://gnosis-auction.eth.limo/#/licenses#topAnchor" rel="noopener noreferrer" target="_blank">
+          <Paragraph className="footerItems">Licenses</Paragraph>
+        </a>
+        <a href="https://dune.xyz/josojo/Gnosis-Auction" rel="noopener noreferrer" target="_blank">
+          <Paragraph className="footerItems">Analytics</Paragraph>
+        </a>
+        <a href="https://discord.com/invite/M39dTHQ" rel="noopener noreferrer" target="_blank">
+          <Paragraph className="footerItems">Support</Paragraph>
+        </a>
+      </div>
       {/* <Switch> */}
       {/* <Route exact path="/">
           <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
