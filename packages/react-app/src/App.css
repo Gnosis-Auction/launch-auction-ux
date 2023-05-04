@@ -33,3 +33,8 @@ label {
   width: 10em !important;
   height: 3em !important;
 }
+
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  color: #FFFFFF !important;
+  margin-right: 1em !important;
+}

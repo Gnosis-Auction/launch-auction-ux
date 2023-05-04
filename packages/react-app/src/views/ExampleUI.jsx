@@ -277,7 +277,7 @@ export default function ExampleUI({
       <Form
         name="Initiate Auction Form"
         // labelCol={{ span: 8.5 }}
-        labelCol={{ style: { width: "30%", whiteSpace: "initial" } }}
+        labelCol={{ style: { width: "35%", whiteSpace: "initial" } }}
         // wrapperCol={{ span: 15.5 }}
         wrapperCol={{ flex: 1 }}
         colon={false}
