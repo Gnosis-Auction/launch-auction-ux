@@ -302,7 +302,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <Input />
           </div>
@@ -314,7 +314,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <Input />
           </div>
@@ -326,7 +326,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
           </div>
@@ -338,7 +338,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
           </div>
@@ -350,7 +350,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <InputNumber style={{ width: "100%" }} />
           </div>
@@ -362,7 +362,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <InputNumber style={{ width: "100%" }} />
           </div>
@@ -374,7 +374,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <InputNumber style={{ width: "100%" }} />
           </div>
@@ -386,7 +386,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <InputNumber style={{ width: "100%" }} />
           </div>
@@ -399,7 +399,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <Switch />
           </div>
@@ -412,7 +412,7 @@ export default function ExampleUI({
         >
           <div className="itemParent">
             <Tooltip title="Tooltip 1">
-              <QuestionCircleOutlined />
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <Switch onChange={setIsPrivateAuction} />
           </div>
@@ -420,10 +420,21 @@ export default function ExampleUI({
         {isPrivateAuction && (
           <>
             <Form.Item label="Private Auctions Signers Address" name="signersAddress">
-              <AddressInput />
+              <div className="itemParent">
+                <Tooltip title="Tooltip 1">
+                  <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+                </Tooltip>
+                <Input />
+                {/* <AddressInput style={{ width: "100%" }} /> */}
+              </div>
             </Form.Item>
             <Form.Item label="Whitelist addresses" name="whitelistAddresses">
-              <Select mode="tags" tokenSeparators={[","]} />
+              <div className="itemParent">
+                <Tooltip title="Tooltip 1">
+                  <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+                </Tooltip>
+                <Select mode="tags" tokenSeparators={[","]} />
+              </div>
             </Form.Item>
           </>
         )}

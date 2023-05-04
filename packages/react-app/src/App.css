@@ -8,7 +8,7 @@
 }
 
 .formParent {
-  margin: 0 auto !important;
+  margin: 3em auto 0 !important;
   max-width: 60em !important;
 }
 
@@ -20,4 +20,8 @@
   display: flex !important;
   align-items: center !important;
   gap: 2em !important;
+}
+
+label {
+  color: #FFFFFF !important;
 }
