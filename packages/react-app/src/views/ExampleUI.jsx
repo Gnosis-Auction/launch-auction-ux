@@ -419,7 +419,11 @@ export default function ExampleUI({
         </Form.Item>
         {isPrivateAuction && (
           <>
-            <Form.Item label="Private Auctions Signers Address" name="signersAddress">
+            <Form.Item
+              label="Private Auctions Signers Address"
+              name="signersAddress"
+              rules={[{ required: true, message: "Please input the signersAddress." }]}
+            >
               <div className="itemParent">
                 <Tooltip title="Tooltip 1">
                   <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
@@ -428,7 +432,11 @@ export default function ExampleUI({
                 {/* <AddressInput style={{ width: "100%" }} /> */}
               </div>
             </Form.Item>
-            <Form.Item label="Whitelist addresses" name="whitelistAddresses">
+            <Form.Item
+              label="Whitelist addresses"
+              name="whitelistAddresses"
+              rules={[{ required: true, message: "Please input the Whitelist addresses." }]}
+            >
               <div className="itemParent">
                 <Tooltip title="Tooltip 1">
                   <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
@@ -438,8 +446,8 @@ export default function ExampleUI({
             </Form.Item>
           </>
         )}
-        <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
-          Submit
+        <Button className="button" type="primary" htmlType="submit">
+          Launch
         </Button>
       </Form>
     </div>

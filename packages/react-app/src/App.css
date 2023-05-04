@@ -25,3 +25,11 @@
 label {
   color: #FFFFFF !important;
 }
+
+.button {
+  background-color: #E8663D !important;
+  border: none !important;
+  border-radius: 0 !important;
+  width: 10em !important;
+  height: 3em !important;
+}
