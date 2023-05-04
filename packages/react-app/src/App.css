@@ -4,39 +4,20 @@
 }
 
 .main {
-  margin: 1em 3em;
+  margin: 3em 2em !important;
 }
 
-.form {
-  max-width: 60em;
-  margin: 3em auto;
+.formParent {
+  margin: 0 auto !important;
+  max-width: 60em !important;
 }
 
-.item {
-  display: flex;
-  gap: 1em;
-  align-items: center;
-  justify-content: left;
-  margin: 3em 0;
+.formItem {
+  width: 100% !important;
 }
 
-.field {
-  padding: 0;
-  margin: 0 !important;
-  color: #FFFFFF !important;
-  text-align: left !important;
-  width: 15em;
-}
-
-.input {
-  max-width: 40em;
-}
-
-.button {
-  background-color: #E8663D !important;
-  border-radius: 0 !important;
-  border: none !important;
-  width: 10em !important;
-  height: 3em !important;
-  color: #FFFFFF !important;
+.itemParent {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2em !important;
 }
