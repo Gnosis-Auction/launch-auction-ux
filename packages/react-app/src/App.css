@@ -56,3 +56,8 @@ label {
 .ant-switch-handle {
   top: 1px !important;
 }
+
+.ant-switch-handle::before {
+  background-color: transparent !important;
+  border: 1px solid #FFFFFF !important;
+}
