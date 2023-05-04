@@ -324,42 +324,72 @@ export default function ExampleUI({
           name="orderCancellationEndDate"
           rules={[{ required: true, message: "Please enter the order cancellation end date" }]}
         >
-          <DatePicker showTime onChange={() => {}} onOk={() => {}} />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
+          </div>
         </Form.Item>
         <Form.Item
           label="Auction End Date"
           name="auctionEndDate"
           rules={[{ required: true, message: "Please enter the auction end date" }]}
         >
-          <DatePicker showTime onChange={() => {}} onOk={() => {}} />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
+          </div>
         </Form.Item>
         <Form.Item
           label="Auctioned Sell Amount"
           name="auctionedSellAmount"
           rules={[{ required: true, message: "Please input the auctioned sell amount" }]}
         >
-          <InputNumber />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
         </Form.Item>
         <Form.Item
           label="Minimum Buy Amount"
           name="minBuyAmount"
           rules={[{ required: true, message: "Please input the minimum buy amount" }]}
         >
-          <InputNumber />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
         </Form.Item>
         <Form.Item
           label="Minimum Bidding Amount Per Order"
           name="minimumBiddingAmountPerOrder"
           rules={[{ required: true, message: "Please input the minimum bidding amount per order." }]}
         >
-          <InputNumber />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
         </Form.Item>
         <Form.Item
           label="Minimum Funding Threshold"
           name="minimumFundingThreshold"
           rules={[{ required: true, message: "Please input the minimum funding threshold." }]}
         >
-          <InputNumber />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
         </Form.Item>
         <Form.Item
           label="Is Atomic Closure Allowed?"
@@ -367,7 +397,12 @@ export default function ExampleUI({
           valuePropName="isAtomicClosureAllowed"
           rules={[{ required: false, message: "Is Atomic Closure Allowed?" }]}
         >
-          <Switch />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <Switch />
+          </div>
         </Form.Item>
         <Form.Item
           label="Is Private Auction?"
@@ -375,7 +410,12 @@ export default function ExampleUI({
           valuePropName="isPrivateAuction"
           rules={[{ required: false, message: "Is Private Auction?" }]}
         >
-          <Switch onChange={setIsPrivateAuction} />
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <Switch onChange={setIsPrivateAuction} />
+          </div>
         </Form.Item>
         {isPrivateAuction && (
           <>
