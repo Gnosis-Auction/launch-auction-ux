@@ -446,6 +446,9 @@ export default function ExampleUI({
             </Form.Item>
           </>
         )}
+        <Paragraph className="requiredDescription">
+          *<span>Required</span>
+        </Paragraph>
         <Button className="button" type="primary" htmlType="submit">
           Launch
         </Button>
