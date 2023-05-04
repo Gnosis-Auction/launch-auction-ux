@@ -44,3 +44,15 @@ label {
   color: #FFFFFF !important;
   margin-right: 1em !important;
 }
+
+.ant-switch-checked {
+  background: #E8663D !important;
+}
+
+.ant-switch {
+  border: 1px solid #FFFFFF !important;
+}
+
+.ant-switch-handle {
+  top: 1px !important;
+}
