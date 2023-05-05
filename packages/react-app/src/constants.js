@@ -12,6 +12,8 @@ export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPP_ID ?? "
 // Docker Hardhat Host
 export const HARDHAT_HOST = process.env.REACT_APP_HARDHAT_HOST ?? "http://localhost";
 
+export const PINATA_JWT = process.env.REACT_APP_PINATA_JWT;
+
 /*
 Decrease the number of RPC calls by passing this value to hooks
 with pollTime (useContractReader, useBalance, etc.).
@@ -38,6 +40,7 @@ export const NETWORKS = {
     chainId: 1,
     rpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`,
     blockExplorer: "https://etherscan.io/",
+    easyAuctionAddress: "0x0b7fFc1f4AD541A4Ed16b40D8c37f0929158D101",
   },
   goerli: {
     name: "goerli",
@@ -46,6 +49,7 @@ export const NETWORKS = {
     faucet: "https://goerli-faucet.slock.it/",
     blockExplorer: "https://goerli.etherscan.io/",
     rpcUrl: `https://goerli.infura.io/v3/${INFURA_ID}`,
+    easyAuctionAddress: "0x1fbab40c338e2e7243da945820ba680c92ef8281",
   },
   sepolia: {
     name: "sepolia",
@@ -64,6 +68,7 @@ export const NETWORKS = {
     rpcUrl: "https://rpc.gnosischain.com",
     faucet: "https://gnosisfaucet.com",
     blockExplorer: "https://gnosisscan.io",
+    easyAuctionAddress: "0x0b7fFc1f4AD541A4Ed16b40D8c37f0929158D101",
   },
   zksyncalpha: {
     name: "zksyncalpha",
@@ -91,6 +96,7 @@ export const NETWORKS = {
     gasPrice: 1000000000,
     rpcUrl: "https://polygon-rpc.com/",
     blockExplorer: "https://polygonscan.com/",
+    easyAuctionAddress: "0x0b7fFc1f4AD541A4Ed16b40D8c37f0929158D101",
   },
   mumbai: {
     name: "mumbai",
@@ -101,6 +107,7 @@ export const NETWORKS = {
     rpcUrl: "https://rpc-mumbai.maticvigil.com",
     faucet: "https://faucet.polygon.technology/",
     blockExplorer: "https://mumbai.polygonscan.com/",
+    easyAuctionAddress: "0x4100aF1E6e8bBc174fc5da4D409e1e3C03F1f85E",
   },
   localOptimismL1: {
     name: "localOptimismL1",
@@ -248,3 +255,5 @@ export const NETWORK = chainId => {
     }
   }
 };
+
+export const initialNetwork = NETWORKS.polygon; // <------- select your target frontend network (localhost, goerli, xdai, mainnet)

@@ -1,153 +1,510 @@
-import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
-import React, { useState } from "react";
-import { utils } from "ethers";
-import { SyncOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Divider, Input, Switch, Form, InputNumber, Select } from "antd";
+import React, { useState, useCallback } from "react";
+import { utils, BigNumber, constants } from "ethers";
+import { notification } from "antd";
 
-import { Address, Balance, Events } from "../components";
+import { Address, Events, AddressInput } from "../components";
+import generateSignatures from "../helpers/generateSignatures";
+import uploadSignature from "../helpers/uploadSignature";
+import { initialNetwork } from "../constants";
 
 export default function ExampleUI({
-  purpose,
   address,
+  userSigner,
   mainnetProvider,
   localProvider,
-  yourLocalBalance,
-  price,
   tx,
   readContracts,
   writeContracts,
+  targetNetwork,
 }) {
-  const [newPurpose, setNewPurpose] = useState("loading...");
+  const [auctioningTokenAmount, setAuctioningTokenAmount] = useState(0);
+  const [biddingTokenAmount, setBiddingTokenAmount] = useState(0);
+  const [isPrivateAuction, setIsPrivateAuction] = useState(false);
+
+  const onFinish = useCallback(
+    async values => {
+      const {
+        auctioningToken,
+        biddingToken,
+        orderCancellationEndDate,
+        auctionEndDate,
+        auctionedSellAmount,
+        minBuyAmount,
+        minimumBiddingAmountPerOrder,
+        minimumFundingThreshold,
+        isAtomicClosureAllowed,
+        isPrivateAuction,
+        signersAddress,
+        whitelistAddresses,
+      } = values;
+      const currentAuctionCount = (await readContracts?.EasyAuction?.auctionCounter()).toNumber();
+
+      const auctioningTokenAddress = auctioningToken;
+      const biddingTokenAddress = biddingToken;
+      const orderCancellationEndDateTimestamp = orderCancellationEndDate.unix();
+      const auctionEndDateTimestamp = auctionEndDate.unix();
+      const auctionedSellAmountInWei = BigNumber.from(utils.parseUnits("" + auctionedSellAmount, 18)).toString();
+      const minBuyAmountInWei = BigNumber.from(utils.parseUnits("" + minBuyAmount, 18)).toString();
+      const minimumBiddingAmountPerOrderInWei = BigNumber.from(
+        utils.parseUnits("" + minimumBiddingAmountPerOrder, 18),
+      ).toString();
+      const minimumFundingThresholdInWei = BigNumber.from(
+        utils.parseUnits("" + minimumFundingThreshold, 18),
+      ).toString();
+      const isAtomicClosureAllowedBool = !!isAtomicClosureAllowed;
+      let accessManagerAddress = constants.AddressZero;
+      let accessManagerContractData = "0x";
+      if (!!isPrivateAuction && signersAddress) {
+        accessManagerAddress = "0xE0AD16EB7Ea467C694E6cFdd5E7D61FE850e8B53";
+        accessManagerContractData = utils.defaultAbiCoder.encode(["address"], [signersAddress]);
+      }
+      console.log({
+        auctioningTokenAddress,
+        biddingTokenAddress,
+        orderCancellationEndDateTimestamp,
+        auctionEndDateTimestamp,
+        auctionedSellAmountInWei,
+        minBuyAmountInWei,
+        minimumBiddingAmountPerOrderInWei,
+        minimumFundingThresholdInWei,
+        isAtomicClosureAllowedBool,
+        accessManagerAddress,
+        accessManagerContractData,
+      });
+      tx(
+        writeContracts.EasyAuction.initiateAuction(
+          auctioningTokenAddress,
+          biddingTokenAddress,
+          orderCancellationEndDateTimestamp,
+          auctionEndDateTimestamp,
+          auctionedSellAmountInWei,
+          minBuyAmountInWei,
+          minimumBiddingAmountPerOrderInWei,
+          minimumFundingThresholdInWei,
+          isAtomicClosureAllowedBool,
+          accessManagerAddress,
+          accessManagerContractData,
+        ),
+        async update => {
+          console.log("📡 Easy Auction Transaction Update:", update);
+          if (update && (update.status === "confirmed" || update.status === 1)) {
+            console.log(" 🍾 Easy Auction Transaction " + update.hash + " finished!");
+            console.log(
+              " ⛽️ " +
+                update.gasUsed +
+                "/" +
+                (update.gasLimit || update.gas) +
+                " @ " +
+                parseFloat(update.gasPrice) / 1000000000 +
+                " gwei",
+            );
+            if (!!isPrivateAuction && signersAddress) {
+              onGenerateSignatures({ auctionId: currentAuctionCount + 1, whitelistAddresses });
+            }
+          }
+        },
+      );
+    },
+    [readContracts?.EasyAuction, onGenerateSignatures],
+  );
+
+  const onFinishFailed = () => {};
+  const onGenerateSignatures = useCallback(
+    async values => {
+      const { auctionId, whitelistAddresses } = values;
+
+      const signatures = await generateSignatures(
+        whitelistAddresses,
+        userSigner,
+        auctionId,
+        "0xE0AD16EB7Ea467C694E6cFdd5E7D61FE850e8B53",
+      );
+
+      await Promise.all(
+        signatures.map(async signature => {
+          const { user, signature: auctioneerSignedMessage } = signature;
+          await uploadSignature(targetNetwork.chainId, auctionId, user, auctioneerSignedMessage);
+        }),
+      );
+    },
+    [targetNetwork.chainId, userSigner],
+  );
+
+  const approveAuctioningToken = useCallback(async () => {
+    if (auctioningTokenAmount <= 0) {
+      alert("Please enter a valid amount");
+      return;
+    }
+    /* look how you call setPurpose on your contract: */
+    /* notice how you pass a call back for tx updates too */
+    const result = tx(
+      writeContracts.AuctioningToken.mint(
+        address,
+        // "" + auctioningTokenAmount * 10 ** 18,
+        BigNumber.from(utils.parseUnits("" + auctioningTokenAmount, 18)),
+      ),
+      update => {
+        console.log("📡 Transaction Update:", update);
+        if (update && (update.status === "confirmed" || update.status === 1)) {
+          console.log(" 🍾 Transaction " + update.hash + " finished!");
+          console.log(
+            " ⛽️ " +
+              update.gasUsed +
+              "/" +
+              (update.gasLimit || update.gas) +
+              " @ " +
+              parseFloat(update.gasPrice) / 1000000000 +
+              " gwei",
+          );
+
+          tx(
+            writeContracts.AuctioningToken.approve(
+              initialNetwork.easyAuctionAddress,
+              BigNumber.from(utils.parseUnits("" + auctioningTokenAmount, 18)),
+            ),
+            update => {
+              console.log("📡 Transaction Update:", update);
+              if (update && (update.status === "confirmed" || update.status === 1)) {
+                console.log(" 🍾 Transaction " + update.hash + " finished!");
+                console.log(
+                  " ⛽️ " +
+                    update.gasUsed +
+                    "/" +
+                    (update.gasLimit || update.gas) +
+                    " @ " +
+                    parseFloat(update.gasPrice) / 1000000000 +
+                    " gwei",
+                );
+              }
+            },
+          );
+        }
+      },
+    );
+    console.log("awaiting metamask/web3 confirm result...", result);
+    console.log(await result);
+  }, [auctioningTokenAmount, address, writeContracts.AuctioningToken]);
+
+  const approveBiddingToken = useCallback(async () => {
+    if (biddingTokenAmount <= 0) {
+      alert("Please enter a valid amount");
+      return;
+    }
+    /* look how you call setPurpose on your contract: */
+    /* notice how you pass a call back for tx updates too */
+    const result = tx(
+      writeContracts.BiddingToken.mint(address, BigNumber.from(utils.parseUnits("" + biddingTokenAmount, 18))),
+      update => {
+        console.log("📡 Transaction Update:", update);
+        if (update && (update.status === "confirmed" || update.status === 1)) {
+          console.log(" 🍾 Transaction " + update.hash + " finished!");
+          console.log(
+            " ⛽️ " +
+              update.gasUsed +
+              "/" +
+              (update.gasLimit || update.gas) +
+              " @ " +
+              parseFloat(update.gasPrice) / 1000000000 +
+              " gwei",
+          );
+
+          tx(
+            writeContracts.BiddingToken.approve(
+              initialNetwork.easyAuctionAddress,
+              BigNumber.from(utils.parseUnits("" + biddingTokenAmount, 18)),
+            ),
+            update => {
+              console.log("📡 Transaction Update:", update);
+              if (update && (update.status === "confirmed" || update.status === 1)) {
+                console.log(" 🍾 Transaction " + update.hash + " finished!");
+                console.log(
+                  " ⛽️ " +
+                    update.gasUsed +
+                    "/" +
+                    (update.gasLimit || update.gas) +
+                    " @ " +
+                    parseFloat(update.gasPrice) / 1000000000 +
+                    " gwei",
+                );
+              }
+            },
+          );
+        }
+      },
+    );
+    console.log("awaiting metamask/web3 confirm result...", result);
+    console.log(await result);
+  }, [biddingTokenAmount, address, writeContracts.BiddingToken]);
+
+  const onSettleAuction = useCallback(
+    async values => {
+      const { auctionId } = values;
+      const result = await tx(writeContracts.EasyAuction.settleAuction(auctionId), update => {
+        console.log("📡 Transaction Update:", update);
+        if (update && (update.status === "confirmed" || update.status === 1)) {
+          console.log(" 🍾 Transaction " + update.hash + " finished!");
+          console.log(
+            " ⛽️ " +
+              update.gasUsed +
+              "/" +
+              (update.gasLimit || update.gas) +
+              " @ " +
+              parseFloat(update.gasPrice) / 1000000000 +
+              " gwei",
+          );
+          notification.info({
+            message: `Auction ID: ${auctionId} has been settled`,
+            description: "",
+            placement: "topRight",
+          });
+        }
+      });
+    },
+    [writeContracts?.EasyAuction],
+  );
 
   return (
     <div>
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
-      <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
-        <h2>Example UI:</h2>
-        <h4>purpose: {purpose}</h4>
+      <div style={{ border: "1px solid #cccccc", padding: 16, width: "80%", margin: "auto", marginTop: 64 }}>
+        <h2>Auction Test Site</h2>
         <Divider />
-        <div style={{ margin: 8 }}>
-          <Input
+        <h3>Mint tokens</h3>
+        <div style={{ display: "flex", alignContent: "center", flexDirection: "row", justifyContent: "center" }}>
+          <InputNumber
+            min={1}
             onChange={e => {
-              setNewPurpose(e.target.value);
+              setAuctioningTokenAmount(e);
             }}
+            style={{ width: 200, marginRight: 20 }}
           />
-          <Button
-            style={{ marginTop: 8 }}
-            onClick={async () => {
-              /* look how you call setPurpose on your contract: */
-              /* notice how you pass a call back for tx updates too */
-              const result = tx(writeContracts.YourContract.setPurpose(newPurpose), update => {
-                console.log("📡 Transaction Update:", update);
-                if (update && (update.status === "confirmed" || update.status === 1)) {
-                  console.log(" 🍾 Transaction " + update.hash + " finished!");
-                  console.log(
-                    " ⛽️ " +
-                      update.gasUsed +
-                      "/" +
-                      (update.gasLimit || update.gas) +
-                      " @ " +
-                      parseFloat(update.gasPrice) / 1000000000 +
-                      " gwei",
-                  );
-                }
-              });
-              console.log("awaiting metamask/web3 confirm result...", result);
-              console.log(await result);
-            }}
-          >
-            Set Purpose!
+          <Button style={{ marginTop: 8, marginRight: 10 }} onClick={approveAuctioningToken}>
+            Mint Auctioning Token and Approve
           </Button>
+          <Address address={writeContracts?.AuctioningToken?.address} />
         </div>
-        <Divider />
-        Your Address:
-        <Address address={address} ensProvider={mainnetProvider} fontSize={16} />
-        <Divider />
-        ENS Address Example:
-        <Address
-          address="0x34aA3F359A9D614239015126635CE7732c18fDF3" /* this will show as austingriffith.eth */
-          ensProvider={mainnetProvider}
-          fontSize={16}
-        />
-        <Divider />
-        {/* use utils.formatEther to display a BigNumber: */}
-        <h2>Your Balance: {yourLocalBalance ? utils.formatEther(yourLocalBalance) : "..."}</h2>
-        <div>OR</div>
-        <Balance address={address} provider={localProvider} price={price} />
-        <Divider />
-        <div>🐳 Example Whale Balance:</div>
-        <Balance balance={utils.parseEther("1000")} provider={localProvider} price={price} />
-        <Divider />
-        {/* use utils.formatEther to display a BigNumber: */}
-        <h2>Your Balance: {yourLocalBalance ? utils.formatEther(yourLocalBalance) : "..."}</h2>
-        <Divider />
-        Your Contract Address:
-        <Address
-          address={readContracts && readContracts.YourContract ? readContracts.YourContract.address : null}
-          ensProvider={mainnetProvider}
-          fontSize={16}
-        />
+        <div
+          style={{
+            display: "flex",
+            alignContent: "center",
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 20,
+          }}
+        >
+          <InputNumber
+            min={1}
+            onChange={e => {
+              setBiddingTokenAmount(e);
+            }}
+            style={{ width: 200, marginRight: 20 }}
+          />
+          <Button style={{ marginTop: 8, marginRight: 10 }} onClick={approveBiddingToken}>
+            Mint Bidding Token and Approve
+          </Button>
+          <Address address={writeContracts?.BiddingToken?.address} />
+        </div>
         <Divider />
         <div style={{ margin: 8 }}>
-          <Button
-            onClick={() => {
-              /* look how you call setPurpose on your contract: */
-              tx(writeContracts.YourContract.setPurpose("🍻 Cheers"));
+          <h3>Initiate Auction</h3>
+          <Form
+            name="Initiate Auction Form"
+            labelAlign="right"
+            layout="inline"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{
+              maxWidth: 800,
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "left",
+              flexDirection: "column",
             }}
-          >
-            Set Purpose to &quot;🍻 Cheers&quot;
-          </Button>
-        </div>
-        <div style={{ margin: 8 }}>
-          <Button
-            onClick={() => {
-              /*
-              you can also just craft a transaction and send it to the tx() transactor
-              here we are sending value straight to the contract's address:
-            */
-              tx({
-                to: writeContracts.YourContract.address,
-                value: utils.parseEther("0.001"),
-              });
-              /* this should throw an error about "no fallback nor receive function" until you add it */
+            initialValues={{
+              remember: true,
+              auctioningToken: writeContracts?.AuctioningToken?.address || "",
+              biddingToken: writeContracts?.BiddingToken?.address || "",
+              accessManagerContractAddress: "0xE0AD16EB7Ea467C694E6cFdd5E7D61FE850e8B53",
             }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
           >
-            Send Value
-          </Button>
+            <Form.Item
+              label="Auctioning Token address"
+              name="auctioningToken"
+              rules={[{ required: true, message: "Please input the address of the auctioning token" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Bidding Token address"
+              name="biddingToken"
+              rules={[{ required: true, message: "Please input the address of the bidding token" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Order Cancellation End Date"
+              name="orderCancellationEndDate"
+              rules={[{ required: true, message: "Please enter the order cancellation end date" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <DatePicker showTime onChange={() => {}} onOk={() => {}} />
+            </Form.Item>
+            <Form.Item
+              label="Auction End Date"
+              name="auctionEndDate"
+              rules={[{ required: true, message: "Please enter the auction end date" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <DatePicker showTime onChange={() => {}} onOk={() => {}} />
+            </Form.Item>
+            <Form.Item
+              label="Auctioned Sell Amount"
+              name="auctionedSellAmount"
+              rules={[{ required: true, message: "Please input the auctioned sell amount" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              label="Minimum Buy Amount"
+              name="minBuyAmount"
+              rules={[{ required: true, message: "Please input the minimum buy amount" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              label="Minimum Bidding Amount Per Order"
+              name="minimumBiddingAmountPerOrder"
+              rules={[{ required: true, message: "Please input the minimum bidding amount per order." }]}
+              style={{ marginBottom: 12 }}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              label="Minimum Funding Threshold"
+              name="minimumFundingThreshold"
+              rules={[{ required: true, message: "Please input the minimum funding threshold." }]}
+              style={{ marginBottom: 12 }}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              label="Is Atomic Closure Allowed?"
+              name="isAtomicClosureAllowed"
+              valuePropName="isAtomicClosureAllowed"
+              rules={[{ required: false, message: "Is Atomic Closure Allowed?" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <Switch />
+            </Form.Item>
+            <Form.Item
+              label="Is Private Auction?"
+              name="isPrivateAuction"
+              valuePropName="isPrivateAuction"
+              rules={[{ required: false, message: "Is Private Auction?" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <Switch onChange={setIsPrivateAuction} />
+            </Form.Item>
+            {isPrivateAuction && (
+              <>
+                <Form.Item label="Private Auctions Signers Address" name="signersAddress" style={{ marginBottom: 12 }}>
+                  <AddressInput />
+                </Form.Item>
+                <Form.Item label="Whitelist addresses" name="whitelistAddresses" style={{ marginBottom: 12 }}>
+                  <Select mode="tags" tokenSeparators={[","]} />
+                </Form.Item>
+              </>
+            )}
+            <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form>
         </div>
-        <div style={{ margin: 8 }}>
-          <Button
-            onClick={() => {
-              /* look how we call setPurpose AND send some value along */
-              tx(
-                writeContracts.YourContract.setPurpose("💵 Paying for this one!", {
-                  value: utils.parseEther("0.001"),
-                }),
-              );
-              /* this will fail until you make the setPurpose function payable */
+        <Divider />
+        <h3>Generate signature for private auctions</h3>
+        <p>Please note the signatures will be generated from the account connected to this website</p>
+        <div>
+          <Form
+            name="Generate Signatures form"
+            labelAlign="right"
+            layout="inline"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{
+              maxWidth: 800,
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "left",
+              flexDirection: "column",
             }}
+            initialValues={{ remember: true }}
+            onFinish={onGenerateSignatures}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
           >
-            Set Purpose With Value
-          </Button>
+            <Form.Item
+              label="Auction ID"
+              name="auctionId"
+              rules={[{ required: true, message: "Please input the auction ID to generate signature for" }]}
+              style={{ marginBottom: 12 }}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              label="Whitelist addresses"
+              name="whitelistAddresses"
+              style={{ marginBottom: 12 }}
+              rules={[{ required: true, message: "Please enter the whitelisted addresses" }]}
+            >
+              <Select mode="tags" tokenSeparators={[","]} />
+            </Form.Item>
+            <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form>
         </div>
-        <div style={{ margin: 8 }}>
-          <Button
-            onClick={() => {
-              /* you can also just craft a transaction and send it to the tx() transactor */
-              tx({
-                to: writeContracts.YourContract.address,
-                value: utils.parseEther("0.001"),
-                data: writeContracts.YourContract.interface.encodeFunctionData("setPurpose(string)", [
-                  "🤓 Whoa so 1337!",
-                ]),
-              });
-              /* this should throw an error about "no fallback nor receive function" until you add it */
-            }}
+        <Divider />
+        <h3>Settle Auction</h3>
+        <Form
+          name=""
+          labelAlign="right"
+          layout="inline"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{
+            maxWidth: 800,
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "left",
+            flexDirection: "column",
+          }}
+          initialValues={{ remember: true }}
+          onFinish={onSettleAuction}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Auction ID"
+            name="auctionId"
+            rules={[{ required: true, message: "Please input the auction ID to generate signature for" }]}
+            style={{ marginBottom: 12 }}
           >
-            Another Example
+            <InputNumber />
+          </Form.Item>
+          <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
+            Submit
           </Button>
-        </div>
+        </Form>
       </div>
 
       {/*
@@ -162,60 +519,6 @@ export default function ExampleUI({
         mainnetProvider={mainnetProvider}
         startBlock={1}
       />
-
-      <div style={{ width: 600, margin: "auto", marginTop: 32, paddingBottom: 256 }}>
-        <Card>
-          Check out all the{" "}
-          <a
-            href="https://github.com/austintgriffith/scaffold-eth/tree/master/packages/react-app/src/components"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            📦 components
-          </a>
-        </Card>
-
-        <Card style={{ marginTop: 32 }}>
-          <div>
-            There are tons of generic components included from{" "}
-            <a href="https://ant.design/components/overview/" target="_blank" rel="noopener noreferrer">
-              🐜 ant.design
-            </a>{" "}
-            too!
-          </div>
-
-          <div style={{ marginTop: 8 }}>
-            <Button type="primary">Buttons</Button>
-          </div>
-
-          <div style={{ marginTop: 8 }}>
-            <SyncOutlined spin /> Icons
-          </div>
-
-          <div style={{ marginTop: 8 }}>
-            Date Pickers?
-            <div style={{ marginTop: 2 }}>
-              <DatePicker onChange={() => {}} />
-            </div>
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Slider range defaultValue={[20, 50]} onChange={() => {}} />
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Switch defaultChecked onChange={() => {}} />
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Progress percent={50} status="active" />
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Spin />
-          </div>
-        </Card>
-      </div>
     </div>
   );
 }

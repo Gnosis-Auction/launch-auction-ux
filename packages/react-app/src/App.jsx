@@ -24,7 +24,7 @@ import {
   FaucetHint,
   NetworkSwitch,
 } from "./components";
-import { NETWORKS, ALCHEMY_KEY } from "./constants";
+import { NETWORKS, ALCHEMY_KEY, initialNetwork } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
@@ -53,8 +53,6 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, goerli, xdai, mainnet)
-
 // 😬 Sorry for all the console logging
 const DEBUG = true;
 const NETWORKCHECK = true;
@@ -304,24 +302,34 @@ function App(props) {
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
       />
       <Menu style={{ textAlign: "center", marginTop: 20 }} selectedKeys={[location.pathname]} mode="horizontal">
-        <Menu.Item key="/">
-          <Link to="/">App Home</Link>
-        </Menu.Item>
-        <Menu.Item key="/debug">
-          <Link to="/debug">Debug Contracts</Link>
-        </Menu.Item>
-        <Menu.Item key="/hints">
-          <Link to="/hints">Hints</Link>
-        </Menu.Item>
+        {DEBUG && (
+          <Menu.Item key="/">
+            <Link to="/">App Home</Link>
+          </Menu.Item>
+        )}
+        {DEBUG && (
+          <Menu.Item key="/debug">
+            <Link to="/debug">Debug Contracts</Link>
+          </Menu.Item>
+        )}
+        {DEBUG && (
+          <Menu.Item key="/hints">
+            <Link to="/hints">Hints</Link>
+          </Menu.Item>
+        )}
         <Menu.Item key="/exampleui">
           <Link to="/exampleui">ExampleUI</Link>
         </Menu.Item>
-        <Menu.Item key="/mainnetdai">
-          <Link to="/mainnetdai">Mainnet DAI</Link>
-        </Menu.Item>
-        <Menu.Item key="/subgraph">
-          <Link to="/subgraph">Subgraph</Link>
-        </Menu.Item>
+        {DEBUG && (
+          <Menu.Item key="/mainnetdai">
+            <Link to="/mainnetdai">Mainnet DAI</Link>
+          </Menu.Item>
+        )}
+        {DEBUG && (
+          <Menu.Item key="/subgraph">
+            <Link to="/subgraph">Subgraph</Link>
+          </Menu.Item>
+        )}
       </Menu>
 
       <Switch>
@@ -337,7 +345,16 @@ function App(props) {
             */}
 
           <Contract
-            name="YourContract"
+            name="AuctioningToken"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
+          <Contract
+            name="BiddingToken"
             price={price}
             signer={userSigner}
             provider={localProvider}
@@ -362,6 +379,7 @@ function App(props) {
             localProvider={localProvider}
             yourLocalBalance={yourLocalBalance}
             price={price}
+            targetNetwork={targetNetwork}
             tx={tx}
             writeContracts={writeContracts}
             readContracts={readContracts}
