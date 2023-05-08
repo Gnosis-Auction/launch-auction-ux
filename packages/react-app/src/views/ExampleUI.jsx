@@ -7,6 +7,11 @@ import { Address, Events, AddressInput } from "../components";
 import generateSignatures from "../helpers/generateSignatures";
 import uploadSignature from "../helpers/uploadSignature";
 import { initialNetwork } from "../constants";
+import { Typography, Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import "../App.css";
+
+const { Title, Paragraph } = Typography;
 
 export default function ExampleUI({
   address,
@@ -265,260 +270,189 @@ export default function ExampleUI({
   );
 
   return (
-    <div>
-      {/*
-        ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
-      */}
-      <div style={{ border: "1px solid #cccccc", padding: 16, width: "80%", margin: "auto", marginTop: 64 }}>
-        <h2>Auction Test Site</h2>
-        <Divider />
-        <h3>Mint tokens</h3>
-        <div style={{ display: "flex", alignContent: "center", flexDirection: "row", justifyContent: "center" }}>
-          <InputNumber
-            min={1}
-            onChange={e => {
-              setAuctioningTokenAmount(e);
-            }}
-            style={{ width: 200, marginRight: 20 }}
-          />
-          <Button style={{ marginTop: 8, marginRight: 10 }} onClick={approveAuctioningToken}>
-            Mint Auctioning Token and Approve
-          </Button>
-          <Address address={writeContracts?.AuctioningToken?.address} />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignContent: "center",
-            flexDirection: "row",
-            justifyContent: "center",
-            marginTop: 20,
-          }}
+    <div className="main">
+      <Title level={3} style={{ color: "#FFFFFF" }}>
+        Start a new <span style={{ color: "#E8663D" }}>Auction</span>
+      </Title>
+      <Form
+        name="Initiate Auction Form"
+        // labelCol={{ span: 8.5 }}
+        labelCol={{ style: { width: "35%", whiteSpace: "initial" } }}
+        // wrapperCol={{ span: 15.5 }}
+        wrapperCol={{ flex: 1 }}
+        colon={false}
+        initialValues={{
+          remember: true,
+          auctioningToken: writeContracts?.AuctioningToken?.address || "",
+          biddingToken: writeContracts?.BiddingToken?.address || "",
+          accessManagerContractAddress: "0xE0AD16EB7Ea467C694E6cFdd5E7D61FE850e8B53",
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        className="formParent"
+        labelAlign="left"
+        labelWrap
+      >
+        <Form.Item
+          className="formItem"
+          label="Auctioning Token address"
+          name="auctioningToken"
+          rules={[{ required: true, message: "Please input the address of the auctioning token" }]}
         >
-          <InputNumber
-            min={1}
-            onChange={e => {
-              setBiddingTokenAmount(e);
-            }}
-            style={{ width: 200, marginRight: 20 }}
-          />
-          <Button style={{ marginTop: 8, marginRight: 10 }} onClick={approveBiddingToken}>
-            Mint Bidding Token and Approve
-          </Button>
-          <Address address={writeContracts?.BiddingToken?.address} />
-        </div>
-        <Divider />
-        <div style={{ margin: 8 }}>
-          <h3>Initiate Auction</h3>
-          <Form
-            name="Initiate Auction Form"
-            labelAlign="right"
-            layout="inline"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            style={{
-              maxWidth: 800,
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "left",
-              flexDirection: "column",
-            }}
-            initialValues={{
-              remember: true,
-              auctioningToken: writeContracts?.AuctioningToken?.address || "",
-              biddingToken: writeContracts?.BiddingToken?.address || "",
-              accessManagerContractAddress: "0xE0AD16EB7Ea467C694E6cFdd5E7D61FE850e8B53",
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Bidding Token address"
+          name="biddingToken"
+          rules={[{ required: true, message: "Please input the address of the bidding token" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Input />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Order Cancellation End Date"
+          name="orderCancellationEndDate"
+          rules={[{ required: true, message: "Please enter the order cancellation end date" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Auction End Date"
+          name="auctionEndDate"
+          rules={[{ required: true, message: "Please enter the auction end date" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Auctioned Sell Amount"
+          name="auctionedSellAmount"
+          rules={[{ required: true, message: "Please input the auctioned sell amount" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Minimum Buy Amount"
+          name="minBuyAmount"
+          rules={[{ required: true, message: "Please input the minimum buy amount" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Minimum Bidding Amount Per Order"
+          name="minimumBiddingAmountPerOrder"
+          rules={[{ required: true, message: "Please input the minimum bidding amount per order." }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Minimum Funding Threshold"
+          name="minimumFundingThreshold"
+          rules={[{ required: true, message: "Please input the minimum funding threshold." }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <InputNumber style={{ width: "100%" }} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Is Atomic Closure Allowed?"
+          name="isAtomicClosureAllowed"
+          valuePropName="isAtomicClosureAllowed"
+          rules={[{ required: false, message: "Is Atomic Closure Allowed?" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Switch />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Is Private Auction?"
+          name="isPrivateAuction"
+          valuePropName="isPrivateAuction"
+          rules={[{ required: false, message: "Is Private Auction?" }]}
+        >
+          <div className="itemParent">
+            <Tooltip title="Tooltip 1">
+              <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+            </Tooltip>
+            <Switch onChange={setIsPrivateAuction} />
+          </div>
+        </Form.Item>
+        {isPrivateAuction && (
+          <>
             <Form.Item
-              label="Auctioning Token address"
-              name="auctioningToken"
-              rules={[{ required: true, message: "Please input the address of the auctioning token" }]}
-              style={{ marginBottom: 12 }}
+              label="Private Auctions Signers Address"
+              name="signersAddress"
+              rules={[{ required: true, message: "Please input the signersAddress." }]}
             >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Bidding Token address"
-              name="biddingToken"
-              rules={[{ required: true, message: "Please input the address of the bidding token" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Order Cancellation End Date"
-              name="orderCancellationEndDate"
-              rules={[{ required: true, message: "Please enter the order cancellation end date" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <DatePicker showTime onChange={() => {}} onOk={() => {}} />
-            </Form.Item>
-            <Form.Item
-              label="Auction End Date"
-              name="auctionEndDate"
-              rules={[{ required: true, message: "Please enter the auction end date" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <DatePicker showTime onChange={() => {}} onOk={() => {}} />
-            </Form.Item>
-            <Form.Item
-              label="Auctioned Sell Amount"
-              name="auctionedSellAmount"
-              rules={[{ required: true, message: "Please input the auctioned sell amount" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <InputNumber />
-            </Form.Item>
-            <Form.Item
-              label="Minimum Buy Amount"
-              name="minBuyAmount"
-              rules={[{ required: true, message: "Please input the minimum buy amount" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <InputNumber />
-            </Form.Item>
-            <Form.Item
-              label="Minimum Bidding Amount Per Order"
-              name="minimumBiddingAmountPerOrder"
-              rules={[{ required: true, message: "Please input the minimum bidding amount per order." }]}
-              style={{ marginBottom: 12 }}
-            >
-              <InputNumber />
-            </Form.Item>
-            <Form.Item
-              label="Minimum Funding Threshold"
-              name="minimumFundingThreshold"
-              rules={[{ required: true, message: "Please input the minimum funding threshold." }]}
-              style={{ marginBottom: 12 }}
-            >
-              <InputNumber />
-            </Form.Item>
-            <Form.Item
-              label="Is Atomic Closure Allowed?"
-              name="isAtomicClosureAllowed"
-              valuePropName="isAtomicClosureAllowed"
-              rules={[{ required: false, message: "Is Atomic Closure Allowed?" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <Switch />
-            </Form.Item>
-            <Form.Item
-              label="Is Private Auction?"
-              name="isPrivateAuction"
-              valuePropName="isPrivateAuction"
-              rules={[{ required: false, message: "Is Private Auction?" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <Switch onChange={setIsPrivateAuction} />
-            </Form.Item>
-            {isPrivateAuction && (
-              <>
-                <Form.Item label="Private Auctions Signers Address" name="signersAddress" style={{ marginBottom: 12 }}>
-                  <AddressInput />
-                </Form.Item>
-                <Form.Item label="Whitelist addresses" name="whitelistAddresses" style={{ marginBottom: 12 }}>
-                  <Select mode="tags" tokenSeparators={[","]} />
-                </Form.Item>
-              </>
-            )}
-            <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form>
-        </div>
-        <Divider />
-        <h3>Generate signature for private auctions</h3>
-        <p>Please note the signatures will be generated from the account connected to this website</p>
-        <div>
-          <Form
-            name="Generate Signatures form"
-            labelAlign="right"
-            layout="inline"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            style={{
-              maxWidth: 800,
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "left",
-              flexDirection: "column",
-            }}
-            initialValues={{ remember: true }}
-            onFinish={onGenerateSignatures}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Auction ID"
-              name="auctionId"
-              rules={[{ required: true, message: "Please input the auction ID to generate signature for" }]}
-              style={{ marginBottom: 12 }}
-            >
-              <InputNumber />
+              <div className="itemParent">
+                <Tooltip title="Tooltip 1">
+                  <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+                </Tooltip>
+                <Input />
+                {/* <AddressInput style={{ width: "100%" }} /> */}
+              </div>
             </Form.Item>
             <Form.Item
               label="Whitelist addresses"
               name="whitelistAddresses"
-              style={{ marginBottom: 12 }}
-              rules={[{ required: true, message: "Please enter the whitelisted addresses" }]}
+              rules={[{ required: true, message: "Please input the Whitelist addresses." }]}
             >
-              <Select mode="tags" tokenSeparators={[","]} />
+              <div className="itemParent">
+                <Tooltip title="Tooltip 1">
+                  <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
+                </Tooltip>
+                <Select mode="tags" tokenSeparators={[","]} />
+              </div>
             </Form.Item>
-            <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form>
-        </div>
-        <Divider />
-        <h3>Settle Auction</h3>
-        <Form
-          name=""
-          labelAlign="right"
-          layout="inline"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{
-            maxWidth: 800,
-            display: "flex",
-            justifyContent: "center",
-            alignContent: "left",
-            flexDirection: "column",
-          }}
-          initialValues={{ remember: true }}
-          onFinish={onSettleAuction}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="Auction ID"
-            name="auctionId"
-            rules={[{ required: true, message: "Please input the auction ID to generate signature for" }]}
-            style={{ marginBottom: 12 }}
-          >
-            <InputNumber />
-          </Form.Item>
-          <Button style={{ width: 100, marginLeft: 300 }} type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form>
-      </div>
-
-      {/*
-        📑 Maybe display a list of events?
-          (uncomment the event and emit line in YourContract.sol! )
-      */}
-      <Events
-        contracts={readContracts}
-        contractName="YourContract"
-        eventName="SetPurpose"
-        localProvider={localProvider}
-        mainnetProvider={mainnetProvider}
-        startBlock={1}
-      />
+          </>
+        )}
+        <Paragraph className="requiredDescription">
+          *<span>Required</span>
+        </Paragraph>
+        <Button className="button" type="primary" htmlType="submit">
+          Launch
+        </Button>
+      </Form>
     </div>
   );
 }

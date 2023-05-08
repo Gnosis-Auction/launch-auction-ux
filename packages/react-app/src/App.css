@@ -1,4 +1,96 @@
 .App {
   text-align: center;
   padding-left: calc(100vw - 100%);
+  min-height: 100vh;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.main {
+  margin: 1em 2em 4em !important;
+  flex: 1 !important;
+}
+
+.formParent {
+  margin: 3em auto 0 !important;
+  max-width: 60em !important;
+}
+
+.formItem {
+  width: 100% !important;
+}
+
+.itemParent {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2em !important;
+}
+
+label {
+  color: #FFFFFF !important;
+}
+
+.button {
+  background-color: #E8663D !important;
+  border: none !important;
+  border-radius: 0 !important;
+  width: 10em !important;
+  height: 3em !important;
+}
+
+.requiredDescription {
+  color: #FFFFFF !important;
+  text-align: end !important;
+  margin-bottom: 3em !important;
+}
+
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  color: #FFFFFF !important;
+  margin-right: 1em !important;
+}
+
+.ant-switch-checked {
+  background: #E8663D !important;
+}
+
+.ant-switch {
+  border: 1px solid #FFFFFF !important;
+}
+
+.ant-switch-handle {
+  top: 1px !important;
+}
+
+.ant-switch-handle::before {
+  background-color: transparent !important;
+  border: 1px solid #FFFFFF !important;
+}
+
+.footer {
+  display: flex;
+  gap: 5%;
+  justify-content: center;
+  margin-bottom: 1em !important;
+}
+
+.footerItems {
+  color: #FFFFFF !important;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 5%;
+  border-bottom: 1px solid #20457C;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.navbarItem {
+  margin-top: 0.75em;
 }
