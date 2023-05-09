@@ -256,4 +256,4 @@ export const NETWORK = chainId => {
   }
 };
 
-export const initialNetwork = NETWORKS.polygon; // <------- select your target frontend network (localhost, goerli, xdai, mainnet)
+export const initialNetwork = NETWORKS.mumbai; // <------- select your target frontend network (localhost, goerli, xdai, mainnet)

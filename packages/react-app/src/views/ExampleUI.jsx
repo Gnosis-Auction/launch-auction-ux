@@ -1,9 +1,8 @@
-import { Button, DatePicker, Divider, Input, Switch, Form, InputNumber, Select } from "antd";
-import React, { useState, useCallback } from "react";
+import { Button, DatePicker, Input, Switch, Form, InputNumber, Select } from "antd";
+import React, { useState, useCallback, useRef } from "react";
 import { utils, BigNumber, constants } from "ethers";
 import { notification } from "antd";
 
-import { Address, Events, AddressInput } from "../components";
 import generateSignatures from "../helpers/generateSignatures";
 import uploadSignature from "../helpers/uploadSignature";
 import { initialNetwork } from "../constants";
@@ -26,6 +25,9 @@ export default function ExampleUI({
   const [auctioningTokenAmount, setAuctioningTokenAmount] = useState(0);
   const [biddingTokenAmount, setBiddingTokenAmount] = useState(0);
   const [isPrivateAuction, setIsPrivateAuction] = useState(false);
+  console.log(readContracts?.EasyAuction);
+
+  const auctionFormRef = useRef(null);
 
   const onFinish = useCallback(
     async values => {
@@ -276,9 +278,8 @@ export default function ExampleUI({
       </Title>
       <Form
         name="Initiate Auction Form"
-        // labelCol={{ span: 8.5 }}
+        ref={auctionFormRef}
         labelCol={{ style: { width: "35%", whiteSpace: "initial" } }}
-        // wrapperCol={{ span: 15.5 }}
         wrapperCol={{ flex: 1 }}
         colon={false}
         initialValues={{
@@ -328,7 +329,14 @@ export default function ExampleUI({
             <Tooltip title="Tooltip 1">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
+            <DatePicker
+              style={{ width: "100%" }}
+              onChange={date => {
+                console.log(auctionFormRef.current);
+                auctionFormRef.current?.setFieldsValue({ orderCancellationEndDate: date });
+              }}
+              showTime
+            />
           </div>
         </Form.Item>
         <Form.Item
@@ -340,7 +348,14 @@ export default function ExampleUI({
             <Tooltip title="Tooltip 1">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <DatePicker style={{ width: "100%" }} showTime onChange={() => {}} onOk={() => {}} />
+            <DatePicker
+              style={{ width: "100%" }}
+              onChange={date => {
+                console.log(auctionFormRef.current);
+                auctionFormRef.current?.setFieldsValue({ auctionEndDate: date });
+              }}
+              showTime
+            />
           </div>
         </Form.Item>
         <Form.Item
@@ -352,7 +367,7 @@ export default function ExampleUI({
             <Tooltip title="Tooltip 1">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber onChange={setAuctioningTokenAmount} style={{ width: "100%" }} />
           </div>
         </Form.Item>
         <Form.Item
@@ -376,7 +391,7 @@ export default function ExampleUI({
             <Tooltip title="Tooltip 1">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber onChange={setBiddingTokenAmount} style={{ width: "100%" }} />
           </div>
         </Form.Item>
         <Form.Item
