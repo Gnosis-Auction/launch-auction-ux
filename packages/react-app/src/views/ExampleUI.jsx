@@ -302,7 +302,7 @@ export default function ExampleUI({
             <Tooltip title="Enter the address of the token you want to auction.">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <Input />
+            <Input style={{ backgroundColor: "transparent", color: "#FFFFFF" }} />
           </div>
         </Form.Item>
         <Form.Item
@@ -314,7 +314,7 @@ export default function ExampleUI({
             <Tooltip title="Enter the address of the token that will be used for bidding.">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <Input />
+            <Input style={{ backgroundColor: "transparent", color: "#FFFFFF" }} />
           </div>
         </Form.Item>
         <Form.Item
@@ -327,7 +327,7 @@ export default function ExampleUI({
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <DatePicker
-              style={{ width: "100%" }}
+              style={{ width: "100%", backgroundColor: "transparent", color: "#FFFFFF" }}
               onChange={date => {
                 console.log(auctionFormRef.current);
                 auctionFormRef.current?.setFieldsValue({ orderCancellationEndDate: date });
@@ -346,12 +346,13 @@ export default function ExampleUI({
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
             <DatePicker
-              style={{ width: "100%" }}
+              style={{ width: "100%", backgroundColor: "transparent", textColor: "#FFFFFF" }}
               onChange={date => {
                 console.log(auctionFormRef.current);
                 auctionFormRef.current?.setFieldsValue({ auctionEndDate: date });
               }}
               showTime
+              colorText="#FFFFFF"
             />
           </div>
         </Form.Item>
@@ -364,7 +365,10 @@ export default function ExampleUI({
             <Tooltip title="Enter the number of  tokens you want to auction.">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <InputNumber onChange={setAuctioningTokenAmount} style={{ width: "100%" }} />
+            <InputNumber
+              onChange={setAuctioningTokenAmount}
+              style={{ width: "100%", backgroundColor: "transparent", color: "#FFFFFF" }}
+            />
           </div>
         </Form.Item>
         <Form.Item
@@ -376,7 +380,7 @@ export default function ExampleUI({
             <Tooltip title="Enter the limit price you are willing to accept for the tokens you are about to auction.">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber style={{ width: "100%", backgroundColor: "transparent", color: "#FFFFFF" }} />
           </div>
         </Form.Item>
         <Form.Item
@@ -388,7 +392,10 @@ export default function ExampleUI({
             <Tooltip title="Enter the minimum price you are willing to accept for the auctioned tokens.">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <InputNumber onChange={setBiddingTokenAmount} style={{ width: "100%" }} />
+            <InputNumber
+              onChange={setBiddingTokenAmount}
+              style={{ width: "100%", backgroundColor: "transparent", color: "#FFFFFF" }}
+            />
           </div>
         </Form.Item>
         <Form.Item
@@ -400,7 +407,7 @@ export default function ExampleUI({
             <Tooltip title="Enter the minimum number of bidding tokens you want from the auction. If the sum of bids doesn't go above this threshold, the auction will fail.">
               <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
             </Tooltip>
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber style={{ width: "100%", backgroundColor: "transparent", color: "#FFFFFF" }} />
           </div>
         </Form.Item>
         <Form.Item
@@ -440,7 +447,7 @@ export default function ExampleUI({
                 <Tooltip title="Enter the wallet address of the individual who will be signing addresses to take part in this auction. Typically the address of the auctioneer.">
                   <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
                 </Tooltip>
-                <Input />
+                <Input style={{ backgroundColor: "transparent", color: "#FFFFFF" }} />
                 {/* <AddressInput style={{ width: "100%" }} /> */}
               </div>
             </Form.Item>
@@ -453,7 +460,7 @@ export default function ExampleUI({
                 <Tooltip title="Enter each wallet address, followed by pressing the 'Enter/Return' key, to whitelist addresses for your private auction. Note that you will have to sign each wallet address (with the address entered in the Private Auction Signer field) once you proceed to Launch the auction.">
                   <QuestionCircleOutlined style={{ color: "#FFFFFF" }} />
                 </Tooltip>
-                <Select mode="tags" tokenSeparators={[","]} />
+                <Select mode="tags" tokenSeparators={[","]} style={{ backgroundColor: "transparent" }} />
               </div>
             </Form.Item>
           </>

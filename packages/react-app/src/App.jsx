@@ -381,6 +381,7 @@ function App(props) {
             options={Object.values(NETWORKS).map(network => ({ value: network.name, label: network.name }))}
             onChange={newNetwork => setSelectedNetwork(newNetwork)}
             dropdownStyle={{ textTransform: "capitalize" }}
+            style={{ color: "#FFFFFF" }}
             className="networkDropdown"
           />
         </div>

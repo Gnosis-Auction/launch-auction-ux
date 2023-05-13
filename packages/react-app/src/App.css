@@ -25,6 +25,7 @@
 
 .ant-select .ant-select-selector {
   border-radius: 0 !important;
+  background-color: transparent !important;
 }
 
 .main {
@@ -114,4 +115,12 @@ label {
 
 .navbarItem {
   margin-top: 0.75em;
+}
+
+input {
+  color: #FFFFFF !important;
+}
+
+span.anticon.anticon-down.ant-select-suffix {
+  color: rgb(255, 255, 255) !important;
 }
