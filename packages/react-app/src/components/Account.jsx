@@ -88,7 +88,11 @@ export default function Account({
     <div style={{ display: "flex" }}>
       {/* {display} */}
       {web3Modal && (
-        <Button style={{ marginLeft: 8 }} shape="round" onClick={accountButtonInfo.action}>
+        <Button
+          style={{ background: "transparent", border: "none", color: "#FFFFFF" }}
+          shape="round"
+          onClick={accountButtonInfo.action}
+        >
           {accountButtonInfo.name}
         </Button>
       )}
