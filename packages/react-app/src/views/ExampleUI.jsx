@@ -273,9 +273,6 @@ export default function ExampleUI({
 
   return (
     <div className="main">
-      <Title level={3} style={{ color: "#FFFFFF" }}>
-        Start a new <span style={{ color: "#E8663D" }}>Auction</span>
-      </Title>
       <Form
         name="Initiate Auction Form"
         ref={auctionFormRef}

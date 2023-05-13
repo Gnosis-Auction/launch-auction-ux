@@ -6,13 +6,30 @@
   flex-direction: column !important;
 }
 
+.header {
+  margin-top: 2em;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 55em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.5em;
+}
+
+.networkDropdown {
+  width: 13em;
+  text-transform: capitalize;
+}
+
 .main {
-  margin: 1em 2em 4em !important;
+  margin: 0 2em 4em !important;
   flex: 1 !important;
 }
 
 .formParent {
-  margin: 3em auto 0 !important;
+  margin: 2em auto 0 !important;
   max-width: 60em !important;
 }
 

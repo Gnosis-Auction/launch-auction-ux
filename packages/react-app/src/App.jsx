@@ -1,4 +1,4 @@
-import { Button, Col, Menu, Row } from "antd";
+import { Button, Col, Select, Menu, Row } from "antd";
 
 import "antd/dist/antd.css";
 import {
@@ -32,7 +32,7 @@ import { getRPCPollTime, Transactor, Web3ModalSetup } from "./helpers";
 import { Home, ExampleUI, Hints, Subgraph } from "./views";
 import { useStaticJsonRPC, useGasPrice } from "./hooks";
 import { Typography } from "antd";
-const { Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 
 const { ethers } = require("ethers");
 /*
@@ -259,6 +259,11 @@ function App(props) {
     checkSafeApp();
   }, [loadWeb3Modal]);
 
+  useEffect(() => {
+    console.log("selectedNetwork");
+    console.log(selectedNetwork);
+  }, [selectedNetwork]);
+
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
@@ -363,6 +368,19 @@ function App(props) {
             loadWeb3Modal={loadWeb3Modal}
             logoutOfWeb3Modal={logoutOfWeb3Modal}
             blockExplorer={blockExplorer}
+          />
+        </div>
+      </div>
+      <div className="headerWrapper">
+        <div className="header">
+          <Title level={3} style={{ color: "#FFFFFF" }}>
+            Start a new <span style={{ color: "#E8663D" }}>Auction</span>
+          </Title>
+          <Select
+            options={Object.values(NETWORKS).map(network => ({ value: network.name, label: network.name }))}
+            onChange={newNetwork => setSelectedNetwork(newNetwork)}
+            dropdownStyle={{ textTransform: "capitalize" }}
+            className="networkDropdown"
           />
         </div>
       </div>
