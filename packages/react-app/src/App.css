@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 55em;
+  max-width: 60em;
   margin-left: auto;
   margin-right: auto;
   padding: 0 1.5em;
@@ -21,6 +21,10 @@
 .networkDropdown {
   width: 13em;
   text-transform: capitalize;
+}
+
+.ant-select .ant-select-selector {
+  border-radius: 0 !important;
 }
 
 .main {

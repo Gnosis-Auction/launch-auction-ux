@@ -377,6 +377,7 @@ function App(props) {
             Start a new <span style={{ color: "#E8663D" }}>Auction</span>
           </Title>
           <Select
+            defaultValue={networkOptions[0]}
             options={Object.values(NETWORKS).map(network => ({ value: network.name, label: network.name }))}
             onChange={newNetwork => setSelectedNetwork(newNetwork)}
             dropdownStyle={{ textTransform: "capitalize" }}
